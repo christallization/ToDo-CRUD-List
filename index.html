@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html ng-app>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="scripts.js"></script>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<title>Todo Single Page App By Chris Obigho.</title>
+</head>
+<body>
+    <div class="todo-wrapper" ng-controller="TodoCtrl">
+        <h2>You've got <span class="emphasis">{{getTotalTodos()}}</span> things to do</h2>
+        
+        <ul>
+            <li ng-repeat="todo in todos">
+                <input type="checkbox" ng-model="todo.done"/>
+                <span class="done-{{todo.done}}">{{todo.text}}</span>
+                
+                <span class="btn btn-xs btn-info" ng-hide="editing" ng-click="editing = true"> Manage </span>
+                <span class="btn btn-xs btn-default" ng-hide="sharing" ng-click="sharing = true"> Share </span>
+                
+                <div ng-show="editing" class="col-xs-12 edit">
+                    <form ng-submit="editing = false">
+                        <label class="flabel">Todo:</label>
+                        <input type="text" ng-model="todo.text" placeholder="To Do" class="form-control" ng-required />
+                        <button class="btn btn-sm btn-success" type="submit">Save</button>
+                        <button class="btn btn-sm btn-default" type="button" ng-click="delTodo($index)"> Remove </button>
+                    </form>
+                </div>
+
+                <div ng-show="sharing" class="col-xs-12 share">
+                    <form ng-submit="sharing = false">
+                        <label class="flabel">Share Todo:</label>
+                        <input type="hidden" ng-model="todo.text" placeholder="Share Something" ng-required />
+                        <input type="email" placeholder="Recipients Email Address" class="form-control" ng-required />
+                        <button class="btn btn-sm btn-info" type="submit">Share</button>
+                        <button class="btn btn-sm btn-default" type="button" ng-click="sharing = false"> Cancel </button>
+                    </form>
+                </div>
+                
+                <div class="clearfix"></div>
+            </li>
+        </ul>
+        
+        
+        <div class="row add">
+            <form>
+                <div class="col-xs-8">
+                <input placeholder="I have to ..." type="text" ng-model="formTodoText" class="form-control" ng-model-instant />
+                </div>
+                <div class="col-xs-2">
+                <button class="btn btn-sm btn-success" ng-click="addTodo()"> Add Todo </button>
+                </div>
+            </form>
+        </div>
+        
+        <br>
+        
+        <button class="btn btn-sm btn-danger" ng-click="clearCompleted()"> Clear Completed Todos </button>
+    </div>
+</body>
+
+</html>
